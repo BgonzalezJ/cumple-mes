@@ -5,188 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feliz cumple mes 💕</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
-      font-family: 'Arial', sans-serif;
-    }
-
-    /* Contenedor de los fondos */
-    .slideshow {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .slideshow img {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      animation: fade 20s infinite;
-    }
-
-    .slideshow img:nth-child(1) { animation-delay: 0s; }
-    .slideshow img:nth-child(2) { animation-delay: 5s; }
-    .slideshow img:nth-child(3) { animation-delay: 10s; }
-    .slideshow img:nth-child(4) { animation-delay: 15s; }
-
-    @keyframes fade {
-      0%   { opacity: 0; }
-      10%  { opacity: 1; }
-      30%  { opacity: 1; }
-      40%  { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
-    /* Overlay oscuro */
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .content {
-      color: #fff;
-      max-width: 600px;
-    }
-
-    h1, p, .btn {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1s forwards;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-    }
-    p {
-      font-family: 'Nunito', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-    p strong {
-      font-weight: 700;
-    }
-    .btn {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-    }
-
-    /* Aparecen con delay */
-    h1 { animation-delay: .5s; }
-    p.paragraph-1  { animation-delay: 2.5s; }
-    p.paragraph-2  { animation-delay: 4.5s; }
-    p.paragraph-3  { animation-delay: 6.5s; }
-    .btn { animation-delay: 8.5s; }
-
-    /* Fade up */
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      line-height: 1.3;
-    }
-
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-      line-height: 1.3;
-    }
-
-    /* Botón con animación */
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      background: #ff4081;
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: bold;
-      transition: transform 0.2s ease, background 0.3s;
-      box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
-      transform: translateY(20px);
-    }
-
-    .btn:active {
-      transform: scale(0.95);
-    }
-
-    .btn.visible {
-      opacity: 1;
-      animation: heartbeat 1.5s infinite;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      20% { transform: scale(1.1); }
-      40% { transform: scale(0.95); }
-      60% { transform: scale(1.1); }
-      80% { transform: scale(1); }
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      p { font-size: 1rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="./style.css">
 
   <script>
-    window.onload = function() {
-      const btn = document.getElementById('btn');
-      setTimeout(() => {
-        btn.classList.add('visible');
-      }, 9500);
-    }
-  </script>
+    window.addEventListener("load", function() {
+      // Verifica que todas las imágenes estén cargadas
+      const images = document.querySelectorAll(".slideshow img");
+      let loaded = 0;
 
+      images.forEach(img => {
+        if (img.complete) {
+          loaded++;
+        } else {
+          img.addEventListener("load", () => {
+            loaded++;
+            if (loaded === images.length) showSite();
+          });
+        }
+      });
+
+      if (loaded === images.length) showSite();
+
+      function showSite() {
+        // Espera 2 segundos antes de mostrar el sitio
+        setTimeout(() => {
+          document.querySelector(".loader").style.display = "none";
+          document.querySelector(".site-wrapper").style.display = "block";
+
+          const btn = document.getElementById('btn');
+          setTimeout(() => {
+            btn.classList.add('visible');
+          }, 9500);
+        }, 2000); // <-- aquí el delay de 2 segundos
+      }
+    });
+  </script>
 </head>
 <body>
-  <!-- Slideshow -->
-  <div class="slideshow">
-    <img src="foto1.webp" alt="foto1">
-    <img src="foto2.webp" alt="foto2">
-    <img src="foto3.webp" alt="foto3">
-    <img src="foto4.webp" alt="foto4">
+  <!-- Loader con corazón -->
+  <div class="loader">
+    <div class="heart"></div>
+    <h2>Cargando<span class="dots"></span></h2>
   </div>
 
-  <div class="overlay">
-    <div class="content">
-      <h1>Feliz cumple mes mi princesa ❤️</h1>
-      <p class="paragraph-1">
-        Estos meses a tu lado han sido un sueño hecho realidad 
-        y cada día espero poder hacerte feliz y darte todo el amor que mereces.
-      </p>
-      <p class="paragraph-2">
-        Y aunque habrán momentos en que no podremos estar juntos
-        quiero que sepas que estaré junto a tí, así como se que tu estarás junto a mi ❤️
-      </p>
-      <p class="paragraph-3" style="font-style:italic">
-        La clave está en recordar el día en que comenzó todo y no dejar espacio para las dudas 🥰
-      </p>
-      <a href="https://drive.google.com/file/d/1NxgwiF3zehIPpOaWolGQBWlUfrdMLVEH/view?usp=drive_link" class="btn" id="btn" target="_blank">🎁 Te amo</a>
+  <!-- Sitio oculto hasta que carguen las imágenes -->
+  <div class="site-wrapper">
+    <div class="slideshow">
+      <img src="foto1.webp" alt="foto1">
+      <img src="foto2.webp" alt="foto2">
+      <img src="foto3.webp" alt="foto3">
+      <img src="foto4.webp" alt="foto4">
+    </div>
+
+    <div class="overlay">
+      <div class="content">
+        <h1>Feliz cumple mes mi princesa ❤️</h1>
+        <p class="paragraph-1">
+          Estos meses a tu lado han sido un sueño hecho realidad 
+          y cada día espero poder hacerte feliz y darte todo el amor que mereces.
+        </p>
+        <p class="paragraph-2">
+          Y aunque habrán momentos en que no podremos estar juntos
+          quiero que sepas que estaré junto a tí, así como se que tu estarás junto a mi ❤️
+        </p>
+        <p class="paragraph-3 hint">
+          La clave está en recordar el día en que comenzó todo sin dejar espacio para las dudas 🥰
+        </p>
+        <a href="https://drive.google.com/file/d/1NxgwiF3zehIPpOaWolGQBWlUfrdMLVEH/view?usp=drive_link" class="btn" id="btn" target="_blank">🎁 Te amo</a>
+      </div>
     </div>
   </div>
 </body>
